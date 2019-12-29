@@ -1,4 +1,4 @@
-package com.pawga.myapplication01.ui.main
+package com.pawga.myapplication01.presentation.main
 
 import androidx.lifecycle.ViewModel
 

@@ -2,7 +2,7 @@ package com.pawga.myapplication01
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.pawga.myapplication01.ui.main.MainFragment
+import com.pawga.myapplication01.presentation.main.MainFragment
 
 class MainActivity : AppCompatActivity() {
 
