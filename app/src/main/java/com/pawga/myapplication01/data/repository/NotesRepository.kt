@@ -14,6 +14,8 @@ interface NotesRepository {
 
     fun noteById(id: Long): LiveData<Note>
 
+    fun deleteAll()
+
     //fun allNotes(): DataSource.Factory<Int, Note>
     fun allNotes(): LiveData<List<Note>>
 }

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pawga.myapplication01.R
@@ -47,21 +48,21 @@ class MainFragment : Fragment() {
         notesRecyclerView.layoutManager = LinearLayoutManager(this.context)
         notesRecyclerView.adapter = recyclerViewAdapter
 
-//        viewModel.notes.observe(this, Observer { notesList ->
-//            recyclerViewAdapter.updateNotes(notesList)
-//        })
+        viewModel.notes.observe(this, Observer { notesList ->
+            recyclerViewAdapter.updateNotes(notesList)
+        })
 
         //debug
-        recyclerViewAdapter.updateNotes(listOf(
-            Note(1, "Note"),
-            Note(2, "Note"),
-            Note(3, "Note"),
-            Note(4, "Note"),
-            Note(5, "Note"),
-            Note(6, "Note"),
-            Note(7, "Note"),
-            Note(8, "Note")
-        ))
+//        recyclerViewAdapter.updateNotes(listOf(
+//            Note(1, "Note"),
+//            Note(2, "Note"),
+//            Note(3, "Note"),
+//            Note(4, "Note"),
+//            Note(5, "Note"),
+//            Note(6, "Note"),
+//            Note(7, "Note"),
+//            Note(8, "Note")
+//        ))
     }
 
 }

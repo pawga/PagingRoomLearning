@@ -22,6 +22,10 @@ class NotesRepositoryImpl(private val notesDao: NotesDao,
     override fun noteById(id: Long): LiveData<Note> =
         notesDao.noteById(id).map { mapper.fromDb(it) }
 
+    override fun deleteAll() {
+        notesDao.deleteAll()
+    }
+
 //    override fun allNotes(): DataSource.Factory<Int, Note> =
 //        notesDao.allNotes().map { mapper.fromDb(it) }
 
