@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pawga.myapplication01.R
 import com.pawga.myapplication01.domain.model.Note
@@ -35,6 +36,10 @@ class MainFragment : Fragment() {
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
 
         setupRecyclerView()
+
+        viewModel.notes.observe(this, Observer { pagedNoteList ->
+            pagedNoteList?.let { render(pagedNoteList) }
+        })
     }
 
     private fun onNoteClicked(note: Note) {
@@ -47,22 +52,17 @@ class MainFragment : Fragment() {
     private fun setupRecyclerView() {
         notesRecyclerView.layoutManager = LinearLayoutManager(this.context)
         notesRecyclerView.adapter = recyclerViewAdapter
+    }
 
-        viewModel.notes.observe(this, Observer { notesList ->
-            recyclerViewAdapter.updateNotes(notesList)
-        })
-
-        //debug
-//        recyclerViewAdapter.updateNotes(listOf(
-//            Note(1, "Note"),
-//            Note(2, "Note"),
-//            Note(3, "Note"),
-//            Note(4, "Note"),
-//            Note(5, "Note"),
-//            Note(6, "Note"),
-//            Note(7, "Note"),
-//            Note(8, "Note")
-//        ))
+    private fun render(pagedNoteList: PagedList<Note>) {
+        recyclerViewAdapter.submitList(pagedNoteList)
+        if (pagedNoteList.isEmpty()) {
+            notesRecyclerView.visibility = View.GONE
+            notesNotFound.visibility = View.VISIBLE
+        } else {
+            notesRecyclerView.visibility = View.VISIBLE
+            notesNotFound.visibility = View.GONE
+        }
     }
 
 }

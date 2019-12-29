@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">My Application 01</string>
+
+    <string name="notes_not_found">No notes found</string>
 </resources>

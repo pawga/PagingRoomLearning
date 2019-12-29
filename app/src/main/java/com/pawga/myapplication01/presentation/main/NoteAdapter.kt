@@ -1,11 +1,8 @@
 package com.pawga.myapplication01.presentation.main
 
-import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.recyclerview.widget.DiffUtil.calculateDiff
-import androidx.recyclerview.widget.RecyclerView
-import com.pawga.myapplication01.R
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.DiffUtil
 import com.pawga.myapplication01.domain.model.Note
 
 /**
@@ -16,36 +13,32 @@ typealias ClickListener = (Note) -> Unit
 
 class NoteAdapter(
     private val clickListener: ClickListener
-) : RecyclerView.Adapter<NoteAdapter.ViewHolder>() {
+) : PagedListAdapter<Note, NoteViewHolder>(diffCallback) {
 
-    private var noteList = emptyList<Note>()
+    override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemContainer = LayoutInflater.from(parent.context)
-            .inflate(R.layout.note_item, parent, false) as ViewGroup
-        val viewHolder = ViewHolder(itemContainer)
-        itemContainer.setOnClickListener {
-            clickListener(noteList[viewHolder.adapterPosition])
+        val note = getItem(position)
+
+        with(holder) {
+            bindTo(note)
+            note?.let {
+                itemView.setOnClickListener {
+                    clickListener(note)
+                }
+            }
         }
-        return viewHolder
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val note = noteList[position]
-        holder.id.text = note.id.toString()
-        holder.text.text = note.text
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder =
+        NoteViewHolder(parent)
 
-    override fun getItemCount() = noteList.size
+    companion object {
+        private val diffCallback = object : DiffUtil.ItemCallback<Note>() {
+            override fun areItemsTheSame(oldItem: Note, newItem: Note): Boolean =
+                oldItem.id == newItem.id
 
-    fun updateNotes(noteList: List<Note>) {
-        val diffResult = calculateDiff(NoteDiffCallback(this.noteList, noteList))
-        this.noteList = noteList
-        diffResult.dispatchUpdatesTo(this)
-    }
-
-    class ViewHolder(itemViewGroup: ViewGroup) : RecyclerView.ViewHolder(itemViewGroup) {
-        val id: TextView = itemViewGroup.findViewById(R.id.noteId)
-        val text: TextView = itemViewGroup.findViewById(R.id.noteText)
+            override fun areContentsTheSame(oldItem: Note, newItem: Note): Boolean =
+                oldItem == newItem
+        }
     }
 }

@@ -3,6 +3,8 @@ package com.pawga.myapplication01.presentation.main
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import com.pawga.myapplication01.ApplicationScope
 import com.pawga.myapplication01.data.repository.NotesRepository
 import com.pawga.myapplication01.domain.model.Note
@@ -17,16 +19,18 @@ class MainViewModel : ViewModel() {
     val appContext: Context by inject()
     val notesRepository: NotesRepository by inject()
 
-    lateinit var notes: LiveData<List<Note>>
+    val notes: LiveData<PagedList<Note>>
 
     init {
         injectDependencies()
+        notes = LivePagedListBuilder(
+            notesRepository.allNotes(), PAGE_SIZE)
+            .build()
         loadData()
     }
 
     private fun loadData() {
         fillInDb(appContext)
-        notes = notesRepository.allNotes()
     }
 
     private fun injectDependencies() {
