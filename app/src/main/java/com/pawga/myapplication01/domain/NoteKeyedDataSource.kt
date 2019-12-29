@@ -3,13 +3,14 @@ package com.pawga.myapplication01.domain
 import androidx.paging.ItemKeyedDataSource
 import com.pawga.myapplication01.data.repository.NotesRepository
 import com.pawga.myapplication01.domain.model.Note
-import javax.inject.Inject
+import toothpick.InjectConstructor
 
 /**
  * Created by pawga on 29.12.19 21:50
  */
 
-class NoteKeyedDataSource @Inject constructor(
+@InjectConstructor
+class NoteKeyedDataSource(
     private val notesRepo: NotesRepository
 ) : ItemKeyedDataSource<String, Note>() {
 

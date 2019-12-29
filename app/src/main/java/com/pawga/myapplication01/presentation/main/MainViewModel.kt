@@ -21,7 +21,10 @@ class MainViewModel : ViewModel() {
     val appContext: Context by inject()
     val notesRepository: NotesRepository by inject()
     val dataSourceFactory: NotesDataSourceFactory by inject()
-    lateinit var noteList: LiveData<PagedList<Note>>
+    // alternative line above
+//    @Inject
+//    lateinit var dataSourceFactory: NotesDataSourceFactory
+    val noteList: LiveData<PagedList<Note>>
 
     init {
         injectDependencies()
@@ -48,10 +51,10 @@ class MainViewModel : ViewModel() {
 
     private fun fillInDb(context: Context) {
         ioThread {
-            notesRepository.deleteAll()
-            notesRepository.insertAll(
-                getData().map { Note(id = 0, text = it) }
-            )
+            //notesRepository.deleteAll()
+//            notesRepository.insertAll(
+//                getData().map { Note(id = 0, text = it) }
+//            )
         }
     }
 

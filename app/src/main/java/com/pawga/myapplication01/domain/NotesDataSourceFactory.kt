@@ -9,6 +9,8 @@ import javax.inject.Inject
  * Created by pawga on 29.12.19 22:01
  */
 
+// @InjectConstructor альтернатива @Inject constructor
+
 class NotesDataSourceFactory @Inject constructor(
     private val dataSource: NoteKeyedDataSource
 ) : DataSource.Factory<String, Note>() {
