@@ -24,7 +24,7 @@ abstract class BaseActivity(@LayoutRes contentLayoutId: Int) : AppCompatActivity
 
     open fun getScope(): Scope {
         return KTP.openRootScope()
-            .openSubScope(AppConsants.APPSCOPE)
+            .openSubScope(ApplicationScope::class.java)
             .openSubScope(this)
     }
 }

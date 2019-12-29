@@ -1,7 +1,7 @@
 package com.pawga.myapplication01
 
 import android.app.Application
-import com.pawga.myapplication01.AppConsants.Companion.APPSCOPE
+import timber.log.Timber
 import toothpick.configuration.Configuration
 import toothpick.ktp.KTP
 
@@ -14,7 +14,14 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        initializeTimber()
         initializeToothpick()
+    }
+
+    private fun initializeTimber() {
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
     }
 
     private fun initializeToothpick() {
@@ -25,7 +32,7 @@ class App : Application() {
         }
 
         KTP.openRootScope()
-            .openSubScope(APPSCOPE)
+            .openSubScope(ApplicationScope::class.java)
             .installModules(AppModule(this))
             .inject(this)
     }

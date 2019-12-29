@@ -61,15 +61,18 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
     implementation "androidx.recyclerview:recyclerview:$recyclerViewVersion"
-    implementation "androidx.room:room-runtime:$roomVersion"
     implementation "androidx.paging:paging-runtime:$pagingVersion"
-    implementation "androidx.room:room-ktx:$roomVersion"
     implementation "androidx.work:work-runtime-ktx:$workVersion"
     implementation "com.github.bumptech.glide:glide:$glideVersion"
     implementation "com.google.android.material:material:$materialVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
+
+    //room
+    implementation "androidx.room:room-runtime:$roomVersion"
+    implementation "androidx.room:room-ktx:$roomVersion"
+    kapt "androidx.room:room-compiler:$roomVersion"
 
     //Toothpick
     api "com.github.stephanenicolas.toothpick:toothpick-runtime:$toothpickVersion"

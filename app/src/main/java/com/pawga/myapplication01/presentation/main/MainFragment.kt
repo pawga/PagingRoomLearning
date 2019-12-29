@@ -31,8 +31,9 @@ class MainFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        setupRecyclerView()
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+
+        setupRecyclerView()
     }
 
     private fun onNoteClicked(note: Note) {
@@ -45,6 +46,10 @@ class MainFragment : Fragment() {
     private fun setupRecyclerView() {
         notesRecyclerView.layoutManager = LinearLayoutManager(this.context)
         notesRecyclerView.adapter = recyclerViewAdapter
+
+//        viewModel.notes.observe(this, Observer { notesList ->
+//            recyclerViewAdapter.updateNotes(notesList)
+//        })
 
         //debug
         recyclerViewAdapter.updateNotes(listOf(

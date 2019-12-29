@@ -2,7 +2,7 @@ package com.pawga.myapplication01
 
 import android.app.Application
 import android.content.Context
-import com.pawga.myapplication01.data.db.NotesDao
+import com.pawga.myapplication01.data.DbNoteMapper
 import com.pawga.myapplication01.data.db.NotesDatabase
 import com.pawga.myapplication01.data.repository.NotesRepository
 import com.pawga.myapplication01.data.repository.NotesRepositoryImpl
@@ -18,7 +18,12 @@ class AppModule(val application: Application) : Module() {
         val context = application.applicationContext
         bind(Application::class.java).toInstance(application)
         bind(Context::class.java).toInstance(context)
-        bind(NotesDao::class.java).toInstance(NotesDatabase.getInstance(context).notesDao())
-        bind(NotesRepository::class.java).to(NotesRepositoryImpl::class.java)
+        bind(NotesRepository::class.java)
+            .toInstance(
+                NotesRepositoryImpl(
+                NotesDatabase.getInstance(context).notesDao(),
+                DbNoteMapper()
+                )
+            )
     }
 }
