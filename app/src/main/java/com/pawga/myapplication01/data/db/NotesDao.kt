@@ -1,7 +1,6 @@
 package com.pawga.myapplication01.data.db
 
 import androidx.lifecycle.LiveData
-import androidx.paging.DataSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -27,7 +26,9 @@ interface NotesDao {
     @Query("SELECT * FROM notes WHERE id = :id")
     fun noteById(id: Long): LiveData<NoteEntity>
 
-    @Query("SELECT * FROM notes ORDER BY id ASC")
-    fun allNotes(): DataSource.Factory<Int, NoteEntity>
-    //fun allNotes(): LiveData<List<NoteEntity>>
+    @Query("SELECT * FROM notes ORDER BY note_text ASC limit :requestedLoadSize")
+    fun notes(requestedLoadSize: Int): List<NoteEntity>
+
+    @Query("SELECT * FROM notes WHERE note_text > :key ORDER BY note_text ASC limit :requestedLoadSize")
+    fun notesAfter(key: String, requestedLoadSize: Int): List<NoteEntity>
 }

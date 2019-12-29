@@ -1,7 +1,6 @@
 package com.pawga.myapplication01.data.repository
 
 import androidx.lifecycle.LiveData
-import androidx.paging.DataSource
 import com.pawga.myapplication01.domain.model.Note
 
 /**
@@ -17,6 +16,7 @@ interface NotesRepository {
 
     fun deleteAll()
 
-    fun allNotes(): DataSource.Factory<Int, Note>
-    //fun allNotes(): LiveData<List<Note>>
+    fun notes(requestedLoadSize: Int): List<Note>
+
+    fun notesAfter(key: String, requestedLoadSize: Int): List<Note>
 }

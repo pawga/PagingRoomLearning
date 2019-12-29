@@ -6,6 +6,7 @@ import com.pawga.myapplication01.data.DbNoteMapper
 import com.pawga.myapplication01.data.db.NotesDatabase
 import com.pawga.myapplication01.data.repository.NotesRepository
 import com.pawga.myapplication01.data.repository.NotesRepositoryImpl
+import com.pawga.myapplication01.domain.NotesDataSourceFactory
 import toothpick.config.Module
 
 /**
@@ -25,5 +26,6 @@ class AppModule(val application: Application) : Module() {
                 DbNoteMapper()
                 )
             )
+        bind(NotesDataSourceFactory::class.java)
     }
 }

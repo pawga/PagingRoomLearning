@@ -37,7 +37,7 @@ class MainFragment : Fragment() {
 
         setupRecyclerView()
 
-        viewModel.notes.observe(this, Observer { pagedNoteList ->
+        viewModel.noteList.observe(this, Observer { pagedNoteList ->
             pagedNoteList?.let { render(pagedNoteList) }
         })
     }

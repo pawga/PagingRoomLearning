@@ -7,25 +7,33 @@ import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.pawga.myapplication01.ApplicationScope
 import com.pawga.myapplication01.data.repository.NotesRepository
+import com.pawga.myapplication01.domain.NotesDataSourceFactory
 import com.pawga.myapplication01.domain.model.Note
 import com.pawga.myapplication01.utils.ioThread
 import toothpick.ktp.KTP
 import toothpick.ktp.delegate.inject
 
 private const val PAGE_SIZE = 10
+private const val INITIAL_LOAD_SIZE_HINT = 25
 
 class MainViewModel : ViewModel() {
 
     val appContext: Context by inject()
     val notesRepository: NotesRepository by inject()
-
-    val notes: LiveData<PagedList<Note>>
+    val dataSourceFactory: NotesDataSourceFactory by inject()
+    lateinit var noteList: LiveData<PagedList<Note>>
 
     init {
         injectDependencies()
-        notes = LivePagedListBuilder(
-            notesRepository.allNotes(), PAGE_SIZE)
+
+        val config = PagedList.Config.Builder()
+            .setEnablePlaceholders(false)
+            .setInitialLoadSizeHint(INITIAL_LOAD_SIZE_HINT)
+            .setPageSize(PAGE_SIZE)
             .build()
+
+        noteList = LivePagedListBuilder<String, Note>(dataSourceFactory, config).build()
+
         loadData()
     }
 
