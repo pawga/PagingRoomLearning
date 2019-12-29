@@ -45,6 +45,18 @@ class MainFragment : Fragment() {
     private fun setupRecyclerView() {
         notesRecyclerView.layoutManager = LinearLayoutManager(this.context)
         notesRecyclerView.adapter = recyclerViewAdapter
+
+        //debug
+        recyclerViewAdapter.updateNotes(listOf(
+            Note(1, "Note"),
+            Note(2, "Note"),
+            Note(3, "Note"),
+            Note(4, "Note"),
+            Note(5, "Note"),
+            Note(6, "Note"),
+            Note(7, "Note"),
+            Note(8, "Note")
+        ))
     }
 
 }

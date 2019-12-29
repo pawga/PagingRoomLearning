@@ -1,50 +1,51 @@
 package com.pawga.myapplication01.presentation.main
 
+import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagedListAdapter
-import androidx.recyclerview.widget.DiffUtil
+import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil.calculateDiff
+import androidx.recyclerview.widget.RecyclerView
+import com.pawga.myapplication01.R
 import com.pawga.myapplication01.domain.model.Note
-import timber.log.Timber
 
 /**
  * Created by pawga on 29.12.19 18:01
  */
 
-
 typealias ClickListener = (Note) -> Unit
 
 class NoteAdapter(
     private val clickListener: ClickListener
-) : PagedListAdapter<Note, NoteViewHolder>(diffCallback) {
+) : RecyclerView.Adapter<NoteAdapter.ViewHolder>() {
 
-    override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
-        Timber.d("Binding view holder at position $position")
-        val note = getItem(position)
+    private var noteList = emptyList<Note>()
 
-        with(holder) {
-            bindTo(note)
-            note?.let {
-                itemView.setOnClickListener {
-                    clickListener(note)
-                }
-            }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val itemContainer = LayoutInflater.from(parent.context)
+            .inflate(R.layout.note_item, parent, false) as ViewGroup
+        val viewHolder = ViewHolder(itemContainer)
+        itemContainer.setOnClickListener {
+            clickListener(noteList[viewHolder.adapterPosition])
         }
+        return viewHolder
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder =
-        NoteViewHolder(parent)
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val note = noteList[position]
+        holder.id.text = note.id.toString()
+        holder.text.text = note.text
+    }
 
-    companion object {
-        /**
-         * This diff callback informs the PagedListAdapter how to compute list differences when new
-         * PagedLists arrive.
-         */
-        private val diffCallback = object : DiffUtil.ItemCallback<Note>() {
-            override fun areItemsTheSame(oldItem: Note, newItem: Note): Boolean =
-                oldItem.id == newItem.id
+    override fun getItemCount() = noteList.size
 
-            override fun areContentsTheSame(oldItem: Note, newItem: Note): Boolean =
-                oldItem == newItem
-        }
+    fun updateNotes(noteList: List<Note>) {
+        val diffResult = calculateDiff(NoteDiffCallback(this.noteList, noteList))
+        this.noteList = noteList
+        diffResult.dispatchUpdatesTo(this)
+    }
+
+    class ViewHolder(itemViewGroup: ViewGroup) : RecyclerView.ViewHolder(itemViewGroup) {
+        val id: TextView = itemViewGroup.findViewById(R.id.noteId)
+        val text: TextView = itemViewGroup.findViewById(R.id.noteText)
     }
 }
